@@ -15,6 +15,20 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   var _questionIndex = 0;
+  final questions = [
+    {
+      'questionText': 'what is your favorite color?',
+      'answer': ['blue', 'pink', 'red']
+    },
+    {
+      'questionText': 'what is your favorite animal?',
+      'answer': ['crocodile', 'tigri', 'lionaile']
+    },
+    {
+      'questionText': 'what is your favorite car?',
+      'answer': ['bugaii', 'mercedes', 'bmv']
+    },
+  ];
 
   void _AnswerQuestion() {
     setState(() {
@@ -25,35 +39,47 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    var questions = [
-      {
-        'questionText': 'what is your favorite color?',
-        'answer': ['blue', 'pink', 'red']
-      },
-      {
-        'questionText': 'what is your favorite animal?',
-        'answer': ['crocodile', 'tigri', 'lionaile']
-      },
-      {
-        'questionText': 'what is your favorite car?',
-        'answer': ['bugaii', 'mercedes', 'bmv']
-      },
-    ];
-
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
           title: Text("Quiz App"),
         ),
-        body: Column(
-          children: <Widget>[
-            Question(questions[_questionIndex]['questionText'] as String),
-            ...(questions[_questionIndex]['answer'] as List<String>)
-                .map((answer) {
-              return Answer(_AnswerQuestion, answer);
-            }).toList()
-          ],
-        ),
+        body: _questionIndex < questions.length
+            ? Column(
+                children: <Widget>[
+                  Question(questions[_questionIndex]['questionText'] as String),
+                  ...(questions[_questionIndex]['answer'] as List<String>)
+                      .map((answer) {
+                    return Answer(_AnswerQuestion, answer);
+                  }).toList()
+                ],
+              )
+            : Center(
+                child: Column(
+                  children: [
+                    Text(
+                      'Finished',
+                      style: TextStyle(
+                        fontSize: 50,
+                        color: Colors.blueGrey,
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          _questionIndex = 0;
+                        });
+                      },
+                      child: Text(
+                        "Reset",
+                        style: TextStyle(
+                          fontSize: 30,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
       ),
     );
   }
