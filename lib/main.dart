@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'question.dart';
-import 'answer.dart';
+import 'quiz.dart';
+import 'result.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,7 +15,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   var _questionIndex = 0;
-  final questions = [
+  final _questions = [
     {
       'questionText': 'what is your favorite color?',
       'answer': ['blue', 'pink', 'red']
@@ -41,46 +41,16 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: Text("Quiz App"),
-        ),
-        body: _questionIndex < questions.length
-            ? Column(
-                children: <Widget>[
-                  Question(questions[_questionIndex]['questionText'] as String),
-                  ...(questions[_questionIndex]['answer'] as List<String>)
-                      .map((answer) {
-                    return Answer(_AnswerQuestion, answer);
-                  }).toList()
-                ],
-              )
-            : Center(
-                child: Column(
-                  children: [
-                    Text(
-                      'Finished',
-                      style: TextStyle(
-                        fontSize: 50,
-                        color: Colors.blueGrey,
-                      ),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          _questionIndex = 0;
-                        });
-                      },
-                      child: Text(
-                        "Reset",
-                        style: TextStyle(
-                          fontSize: 30,
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-      ),
+          appBar: AppBar(
+            title: Text("Quiz App"),
+          ),
+          body: _questionIndex < _questions.length
+              ? Quiz(
+                  answerQuestion: _AnswerQuestion,
+                  questionIndex: _questionIndex,
+                  questions: _questions,
+                )
+              : Result()),
     );
   }
 }
