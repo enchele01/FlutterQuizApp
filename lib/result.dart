@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 
 class Result extends StatelessWidget {
   final int totalScore;
-  Result(this.totalScore);
+
+  final VoidCallback restartHandler;
+
+  Result(this.totalScore, this.restartHandler);
 
   String get resultPhrase {
     return "The score is $totalScore";
@@ -26,7 +29,11 @@ class Result extends StatelessWidget {
               fontSize: 55,
               color: Colors.red,
             ),
-          )
+          ),
+          ElevatedButton(
+            onPressed: restartHandler,
+            child: Text("Restart Quiz"),
+          ),
         ],
       ),
     );
